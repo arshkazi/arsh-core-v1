@@ -4,10 +4,10 @@
    ========================================================================== */
 
 // 1. CONFIGURATION
-// Replace with your live Vercel deployment endpoint once deployed!
+// Update this URL once your Vercel proxy backend is deployed!
 const GEMINI_API_ENDPOINT = 'https://arsh-jarvis-cli.vercel.app/api/chat';
 
-// DOM Element References (Ensure these IDs match your index.html)
+// DOM References
 const userInput = document.getElementById('cli-input');
 const terminalBuffer = document.getElementById('cli-output-buffer');
 const voiceBtn = document.getElementById('voice-input-btn');
@@ -24,7 +24,7 @@ async function processCliCommand(query) {
       <div class="text-amber-400 font-bold">[AVAILABLE ARSH COMMANDS]</div>
       <div class="text-slate-400 space-y-0.5">
         <div><span class="text-emerald-400">arsh --skills</span>     : Print technical AI/ML & MLOps stack matrix</div>
-        <div><span class="text-cyan-400">arsh --projects</span>   : Query live GitHub repos & dissertation details</div>
+        <div><span class="text-cyan-400">arsh --projects</span>   : Query live GitHub repos & project details</div>
         <div><span class="text-amber-400">arsh --exp</span>        : View enterprise history (TCS & Vibrant Minds)</div>
         <div><span class="text-purple-400">arsh --edu</span>        : Print academic credentials (MSc UEL Distinction)</div>
         <div><span class="text-blue-400">arsh --contact</span>    : Print email, phone, and social endpoints</div>
@@ -32,7 +32,7 @@ async function processCliCommand(query) {
         <div><span class="text-red-400">clear</span>           : Purge command line buffer</div>
       </div>
       <div class="text-slate-500 text-[10px] pt-1">
-        💡 <span class="text-slate-300">Tip:</span> Click the <i class="fas fa-microphone text-emerald-400"></i> icon or ask custom open-ended questions to speak with JARVIS!
+        💡 <span class="text-slate-300">Tip:</span> Ask custom open-ended questions below to speak with JARVIS!
       </div>
     `;
   }
@@ -143,7 +143,7 @@ async function processCliCommand(query) {
 
     return `
       <div class="text-emerald-400 font-bold animate-pulse">[INITIATING RECRUITMENT PROTOCOL]</div>
-      <div class="text-slate-300 text-[10px]">Launching email client for <span class="text-cyan-400">arsh.lakers@gmail.com</span>...</div>
+      <div class="text-slate-300 text-[10px]">Launching default email client for <span class="text-cyan-400">arsh.lakers@gmail.com</span>...</div>
     `;
   }
 
@@ -157,7 +157,7 @@ async function processCliCommand(query) {
   if (q.includes('--game') || q === 'game') {
     return `
       <div class="text-amber-400 font-bold">[MINI TERMINAL CHALLENGE]</div>
-      <div class="text-slate-300 text-[10px]">Decode the binary: What is <span class="text-cyan-400 font-bold">01000001</span> in ASCII?</div>
+      <div class="text-slate-300 text-[10px]">Decode binary: What is <span class="text-cyan-400 font-bold">01000001</span> in ASCII?</div>
       <div class="text-slate-400 text-[10px] pl-2">Type your 1-character answer in the CLI prompt!</div>
     `;
   }
@@ -166,7 +166,7 @@ async function processCliCommand(query) {
     return `<div class="text-emerald-400 font-bold">ACCESS GRANTED! Correct answer (01000001 = 'A').</div>`;
   }
 
-  // 10. DYNAMIC GEMINI JARVIS FALLBACK FOR OPEN-ENDED QUESTIONS
+  // 10. DYNAMIC GEMINI JARVIS FALLBACK
   try {
     const response = await fetch(GEMINI_API_ENDPOINT, {
       method: 'POST',
@@ -181,7 +181,7 @@ async function processCliCommand(query) {
   } catch (err) {
     return `
       <div class="text-amber-400 font-bold">[JARVIS OFFLINE / LOCAL MODE]</div>
-      <div class="text-slate-400 text-[10px]">Could not establish link to remote AI core. Run <span class="text-emerald-400">arsh --help</span> to view all local terminal commands.</div>
+      <div class="text-slate-400 text-[10px]">Could not reach AI core. Run <span class="text-emerald-400">arsh --help</span> to view all local commands.</div>
     `;
   }
 }
@@ -189,8 +189,6 @@ async function processCliCommand(query) {
 /* ==========================================================================
    3. TERMINAL UI RENDERERS & EVENT HANDLERS
    ========================================================================== */
-
-// Appends user input line to buffer
 function appendUserQuery(cmdText) {
   if (!terminalBuffer) return;
 
@@ -200,7 +198,6 @@ function appendUserQuery(cmdText) {
   terminalBuffer.appendChild(userLine);
 }
 
-// Appends CLI/JARVIS output to buffer
 function appendCommandOutput(outputHtml) {
   if (!terminalBuffer || !outputHtml) return;
 
@@ -212,7 +209,6 @@ function appendCommandOutput(outputHtml) {
   terminalBuffer.scrollTop = terminalBuffer.scrollHeight;
 }
 
-// Main Send Trigger
 async function handleSend() {
   if (!userInput) return;
   const input = userInput.value.trim();
@@ -221,34 +217,30 @@ async function handleSend() {
   userInput.value = '';
   appendUserQuery(input);
 
-  // Render temporary processing state for long API calls
   const tempId = 'proc-' + Date.now();
   const tempLine = document.createElement('div');
   tempLine.id = tempId;
   tempLine.className = 'text-slate-500 font-mono text-[10px] pl-2 animate-pulse';
   tempLine.innerText = '[PROCESSING COMMAND...]';
+  
   if (terminalBuffer) {
     terminalBuffer.appendChild(tempLine);
     terminalBuffer.scrollTop = terminalBuffer.scrollHeight;
   }
 
-  // AWAIT async result
   const outputHtml = await processCliCommand(input);
 
-  // Remove processing placeholder and print output
   const tempEl = document.getElementById(tempId);
   if (tempEl) tempEl.remove();
 
   appendCommandOutput(outputHtml);
 }
 
-// Quick Suggestion Chips Trigger
 async function executeQuickCmd(cmdText) {
   if (userInput) userInput.value = cmdText;
   await handleSend();
 }
 
-// Enter Key Listener
 if (userInput) {
   userInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') handleSend();
@@ -319,19 +311,12 @@ if (voiceBtn) {
 
     voiceBtn.addEventListener('click', () => recognition.start());
   } else {
-    voiceBtn.style.display = 'none'; // Hide if browser doesn't support webkitSpeechRecognition
+    voiceBtn.style.display = 'none';
   }
 }
 
-// Utility HTML escaper
 function escapeHtml(text) {
   const div = document.createElement('div');
   div.innerText = text;
   return div.innerHTML;
 }
-<!-- All page elements above -->
-    
-    <script src="matrix_fx.js"></script>
-    <script src="chatbot.js"></script>
-  </body>
-</html>
