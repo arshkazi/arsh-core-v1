@@ -484,4 +484,5 @@ async function processCliCommand(query) {
     return `<div class="text-red-400">[JARVIS OFFLINE] Could not connect to AI core. Use 'arsh --help' for hardcoded commands.</div>`;
   }
 }
+    const API_ENDPOINT = 'https://arsh-jarvis-cli.vercel.app/api/chat';
   })();
