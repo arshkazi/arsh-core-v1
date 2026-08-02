@@ -144,7 +144,24 @@
         const interval = setInterval(() => {
           percent += 20;
           const progressEl = document.getElementById('cv-download-progress');
-      
+      // Inside processCliCommand(query) in chatbot.js
+
+if (q.includes('cv') || q.includes('resume') || q.includes('--download-cv')) {
+  // Path to your actual resume file in your repo root or assets folder
+  const RESUME_FILE_PATH = 'Kazi_Mohammed_Arsh_Resume.pdf';
+
+  // Trigger download stream animation
+  triggerTerminalDownload(RESUME_FILE_PATH);
+
+  return `
+    <div class="text-purple-400 font-bold">[INITIATING FILE TRANSFER]</div>
+    <div class="text-slate-400 text-[10px]">Target: <span class="text-slate-200">Kazi_Mohammed_Arsh_Resume.pdf</span></div>
+    <div id="cv-download-progress" class="text-emerald-400 font-bold font-mono text-[10px] mt-1">
+      [░░░░░░░░░░░░░░░░░░░░] 0%
+    </div>
+  `;
+}
+            
           if (progressEl) {
             const blocks = '█'.repeat(percent / 5);
             const spaces = '░'.repeat(20 - (percent / 5));
