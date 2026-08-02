@@ -456,5 +456,32 @@ if (q.includes('--hire') || q.includes('hire arsh')) {
   if (q === 'a') {
     return `<div class="text-emerald-400 font-bold">ACCESS GRANTED! Correct answer (01000001 = 'A'). You think like an AI.</div>`;
   }
-  
+
+    // Inside processCliCommand(query) in chatbot.js
+async function processCliCommand(query) {
+  const q = query.trim().toLowerCase();
+
+  // 1. Hardcoded CLI Overrides
+  if (q === 'arsh --help' || q === 'help') { /* ... */ }
+  if (q.includes('--skills')) { /* ... */ }
+  if (q.includes('--projects')) { /* ... */ }
+  if (q.includes('--download-cv')) { /* ... */ }
+
+  // 2. Dynamic Gemini API Fallback
+  try {
+    // Replace with your Vercel endpoint URL after Step 6
+    const API_ENDPOINT = 'https://arsh-jarvis-cli.vercel.app/api/chat';
+
+    const response = await fetch(API_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: query })
+    });
+
+    const data = await response.json();
+    return `<div class="text-slate-200">${data.reply}</div>`;
+  } catch (err) {
+    return `<div class="text-red-400">[JARVIS OFFLINE] Could not connect to AI core. Use 'arsh --help' for hardcoded commands.</div>`;
+  }
+}
   })();
