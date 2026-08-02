@@ -329,7 +329,9 @@ function escapeHtml(text) {
   div.innerText = text;
   return div.innerHTML;
 }
-<script src="matrix_fx.js"></script>
+<!-- All page elements above -->
+    
+    <script src="matrix_fx.js"></script>
     <script src="chatbot.js"></script>
   </body>
 </html>
