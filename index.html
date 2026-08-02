@@ -805,36 +805,7 @@ function runRagSimulation() {
         </div>
       </div>
 
-      <!-- INPUT PROMPT -->
-      <div class="flex items-center gap-2 pt-2 border-t border-slate-900">
-        <span class="text-emerald-400 font-bold">guest@arsh-cli:~$</span>
-        <input 
-          id="cli-input" 
-          type="text" 
-          placeholder="Type command or ask JARVIS..." 
-          class="w-full bg-transparent text-slate-200 outline-none font-mono text-xs placeholder:text-slate-600"
-          autocomplete="off"
-        >
-        <button id="voice-input-btn" title="Voice Input" class="text-slate-500 hover:text-emerald-400 transition cursor-pointer">
-          <i class="fas fa-microphone"></i>
-        </button>
-      </div>
-
-    </section>
-
-    <!-- QUICK COMMAND CHIPS -->
-    <div class="flex flex-wrap gap-2 text-[11px] font-mono">
-      <button onclick="executeQuickCmd('arsh --skills')" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 text-emerald-400 hover:border-emerald-500 transition cursor-pointer">arsh --skills</button>
-      <button onclick="executeQuickCmd('arsh --projects')" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 text-cyan-400 hover:border-cyan-500 transition cursor-pointer">arsh --projects</button>
-      <button onclick="executeQuickCmd('arsh --exp')" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 text-amber-400 hover:border-amber-500 transition cursor-pointer">arsh --exp</button>
-      <button onclick="executeQuickCmd('arsh --edu')" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 text-purple-400 hover:border-purple-500 transition cursor-pointer">arsh --edu</button>
-      <button onclick="executeQuickCmd('arsh --download-cv')" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 text-pink-400 hover:border-pink-500 transition cursor-pointer">arsh --download-cv</button>
-    </div>
-
-  </main>
-
-  <!-- SCRIPTS ARE AT THE BOTTOM RIGHT BEFORE CLOSING BODY TAG -->
-  <script src="chatbot.js"></script>
+  
 </body>
 </html>
 </body>
