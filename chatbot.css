@@ -1,0 +1,63 @@
+/* Floating Action Button Glow & Twinkle */
+.chat-fab-pulse {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4), inset 0 0 10px rgba(16, 185, 129, 0.3);
+    animation: starTwinkle 2.5s infinite ease-in-out;
+  }
+  
+  @keyframes starTwinkle {
+    0%, 100% {
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.4), inset 0 0 5px rgba(16, 185, 129, 0.2);
+      transform: scale(1);
+      border-color: rgba(16, 185, 129, 0.6);
+    }
+    50% {
+      box-shadow: 0 0 28px rgba(16, 185, 129, 0.9), 0 0 45px rgba(16, 185, 129, 0.5), inset 0 0 12px rgba(16, 185, 129, 0.6);
+      transform: scale(1.08);
+      border-color: rgba(52, 211, 153, 1);
+    }
+  }
+  
+  /* Tooltip / Popup Badge Animation */
+  .cli-popup-badge {
+    animation: floatBounce 3s infinite ease-in-out;
+  }
+  
+  @keyframes floatBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  /* Voice Assistant Listening Pulse */
+.mic-listening {
+    color: #ef4444 !important; /* Red glow while listening */
+    animation: micPulse 1.2s infinite ease-in-out;
+  }
+  
+  @keyframes micPulse {
+    0%, 100% {
+      transform: scale(1);
+      filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.8));
+    }
+    50% {
+      transform: scale(1.25);
+      filter: drop-shadow(0 0 10px rgba(239, 68, 68, 1));
+    }
+  }
+
+  /* CRT Overlay Scanline Effect */
+.crt-overlay::before {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px;
+    z-index: 99;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  
+  /* Matrix Mode Active Body Glow */
+  body.matrix-mode-active {
+    background-color: #020b06 !important;
+    color: #34d399 !important;
+  }
