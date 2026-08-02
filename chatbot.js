@@ -125,7 +125,7 @@
   
     window.executeQuickCmd = function(cmdText) {
       userInput.value = cmdText;
-      handleSend();
+      ;
     };
   
     function appendCommandOutput(cmd, outputHtml) {
@@ -310,7 +310,7 @@ if (q.includes('cv') || q.includes('resume') || q.includes('--download-cv')) {
       `;
     }
   
-    function handleSend() {
+    function  {
       const text = userInput.value.trim();
       if (!text) return;
   
@@ -322,9 +322,23 @@ if (q.includes('cv') || q.includes('resume') || q.includes('--download-cv')) {
       }
     }
   
-    sendBtn.addEventListener('click', handleSend);
-    userInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleSend();
+// Locate handleSend() in chatbot.js and update it to async
+async function handleSend() {
+  const input = userInput.value.trim();
+  if (!input) return;
+
+  // Clear input field
+  userInput.value = '';
+
+  // Render user command in terminal
+  appendUserQuery(input);
+
+  // AWAIT the response from processCliCommand
+  const outputHtml = await processCliCommand(input);
+
+  // Render the resolved HTML output
+  appendCommandOutput(input, outputHtml);
+}
     });
 
    // Web Speech API Voice Recognition (Robust Version)
@@ -389,7 +403,7 @@ if (q.includes('cv') || q.includes('resume') || q.includes('--download-cv')) {
 
         // Slight delay to ensure DOM updates input value before running
         setTimeout(() => {
-          handleSend();
+          ;
         }, 100);
       }
     };
