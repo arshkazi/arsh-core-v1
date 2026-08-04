@@ -4,7 +4,7 @@
  */
 
 (function () {
-    const GITHUB_USERNAME = 'arsh-lakers'; // Replace with your exact GitHub handle
+    const GITHUB_USERNAME = 'arshkazi'; 
   
     let userGithubRepos = [];
     let isGithubLoaded = false;
@@ -25,24 +25,29 @@
       contact: {
         email: "arsh.lakers@gmail.com",
         phone: "+91 91671 91639",
-        github: "https://github.com",
-        linkedin: "https://linkedin.com"
+        github: "https://github.com/arshkazi",
+        linkedin: "https://www.linkedin.com/in/kazi-mohammed-arsh-132a63213/"
       }
     };
   
-    // Fetch GitHub Repos
-    async function fetchGithubKnowledge() {
-      try {
-        const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=10`);
-        if (response.ok) {
-          const repos = await response.json();
-          userGithubRepos = repos.filter(repo => !repo.fork);
-          isGithubLoaded = true;
-        }
-      } catch (err) {
-        console.warn("CLI Agent: GitHub API sync offline.", err);
-      }
+// Fetch GitHub Repos
+async function fetchGithubKnowledge() {
+  try {
+    // FIXED: Passed your actual GitHub username into the URL
+    const response = await fetch(`https://api.github.com/users/arshkazi/repos?sort=updated&per_page=10`);
+    
+    if (response.ok) {
+      const repos = await response.json();
+      userGithubRepos = repos.filter(repo => !repo.fork);
+      isGithubLoaded = true;
+      console.log("CLI Agent: GitHub synced successfully!", userGithubRepos);
+    } else {
+      console.warn("CLI Agent: GitHub API returned status", response.status);
     }
+  } catch (err) {
+    console.warn("CLI Agent: GitHub API sync offline.", err);
+  }
+}
   
     // Inject Floating CLI Widget
     const widgetContainer = document.createElement('div');
@@ -51,12 +56,15 @@
     
     `
 
-    <!-- Quick Action Suggestion Chips -->
+<!-- Quick Action Suggestion Chips -->
 <div class="flex flex-wrap gap-1.5 pt-1" id="cli-chips">
   <button onclick="executeQuickCmd('arsh --skills')" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 hover:border-emerald-500 text-emerald-400 transition text-[10px]">arsh --skills</button>
   <button onclick="executeQuickCmd('arsh --projects')" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 hover:border-cyan-500 text-cyan-400 transition text-[10px]">arsh --projects</button>
   <button onclick="executeQuickCmd('arsh --exp')" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 hover:border-amber-500 text-amber-400 transition text-[10px]">arsh --exp</button>
-  
+  <button onclick="executeQuickCmd('arsh --download-cv')" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 hover:border-purple-500 text-purple-400 transition text-[10px]">arsh --download-cv</button>
+  <button onclick="executeQuickCmd('arsh --hire')" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 hover:border-emerald-400 text-emerald-300 transition text-[10px]">arsh --hire</button>
+</div>
+
   <!-- NEW: Quick Download CV Button -->
   <button onclick="executeQuickCmd('arsh --download-cv')" class="px-2 py-1 rounded bg-slate-900 border border-slate-800 hover:border-purple-500 text-purple-400 transition text-[10px]">arsh --download-cv</button>
 </div>
@@ -172,7 +180,7 @@
     // Pure CLI Command Parser Engine
     function processCliCommand(query) {
       const q = query.trim().toLowerCase();
-  // Add this inside processCliCommand(query) in chatbot.js
+
 
 // 8. DOWNLOAD CV / RESUME COMMAND
 if (q.includes('cv') || q.includes('resume') || q.includes('--download-cv')) {
@@ -191,57 +199,54 @@ if (q.includes('cv') || q.includes('resume') || q.includes('--download-cv')) {
     `;
   }
 
-  // 1. HELP COMMAND
-  if (q === 'arsh --help' || q === 'help') {
-    return `
-      <div class="text-amber-400 font-bold">[AVAILABLE ARSH COMMANDS]</div>
-      <div class="text-slate-400 space-y-0.5">
-        <div><span class="text-emerald-400">arsh --skills</span>     : Print technical AI/ML & MLOps stack matrix</div>
-        <div><span class="text-cyan-400">arsh --projects</span>   : Query live GitHub repos & dissertation details</div>
-        <div><span class="text-amber-400">arsh --exp</span>        : View enterprise history (TCS & Vibrant Minds)</div>
-        <div><span class="text-purple-400">arsh --edu</span>        : Print academic credentials (MSc UEL Distinction)</div>
-        <div><span class="text-blue-400">arsh --contact</span>    : Print email, phone, and social endpoints</div>
-        <div><span class="text-pink-400">arsh --download-cv</span>: Stream & download PDF Resume</div>
-        <div><span class="text-red-400">clear</span>           : Purge command line buffer</div>
-      </div>
-      <div class="text-slate-500 text-[10px] pt-1">
-        💡 <span class="text-slate-300">Tip:</span> Click the <i class="fas fa-microphone text-emerald-400"></i> icon to issue commands using your voice!
-      </div>
-    `;
-  }
+// 1. HELP COMMAND (ALL CLI COMMANDS LISTED)
+if (q === 'arsh --help' || q === 'help') {
+  return `
+    <div class="text-amber-400 font-bold mb-1">[AVAILABLE ARSH COMMANDS]</div>
+    <div class="text-slate-400 space-y-0.5">
+      <div><span class="text-emerald-400">arsh --skills</span>     : Technical AI/ML, RAG & MLOps stack deep-dive</div>
+      <div><span class="text-cyan-400">arsh --projects</span>   : Query all live GitHub repos & featured projects</div>
+      <div><span class="text-amber-400">arsh --exp</span>        : View enterprise history (Vibrant Minds & TCS)</div>
+      <div><span class="text-purple-400">arsh --edu</span>        : Academic credentials (MSc UEL Distinction & BSc)</div>
+      <div><span class="text-blue-400">arsh --contact</span>    : Direct email, phone, and social endpoints</div>
+      <div><span class="text-pink-400">arsh --download-cv</span>: Stream & download PDF Resume</div>
+      <div><span class="text-emerald-300">arsh --hire</span>       : Fast-track recruitment & launch email prompt</div>
+      <div><span class="text-red-300">arsh --sudo</span>       : Check root admin privilege status</div>
+      <div><span class="text-yellow-400">arsh --game</span>       : Play mini binary decoding challenge</div>
+      <div><span class="text-red-400">clear</span>             : Purge command line output buffer</div>
+    </div>
+    <div class="text-slate-500 text-[10px] pt-1.5 border-t border-slate-900 mt-1">
+      💡 <span class="text-slate-300">Tip:</span> Click the <i class="fas fa-microphone text-emerald-400"></i> icon to issue voice commands!
+    </div>
+  `;
+}
 
 
-      // 1. HELP COMMAND
-      if (q === 'arsh --help' || q === 'help') {
-        return `
-          <div class="text-amber-400 font-bold">[AVAILABLE ARSH COMMANDS]</div>
-          <div class="text-slate-400 space-y-0.5">
-            <div><span class="text-emerald-400">arsh --skills</span>    : Print technical AI/ML & MLOps stack matrix</div>
-            <div><span class="text-cyan-400">arsh --projects</span>  : Query live GitHub repos & dissertation details</div>
-            <div><span class="text-amber-400">arsh --exp</span>       : View enterprise history (TCS & Vibrant Minds)</div>
-            <div><span class="text-purple-400">arsh --edu</span>       : Print academic credentials (MSc UEL Distinction)</div>
-            <div><span class="text-blue-400">arsh --contact</span>   : Print email, phone, and social endpoints</div>
-            <div><span class="text-red-400">clear</span>          : Purge command line buffer</div>
-          </div>
-        `;
-      }
   
-      // 2. SKILLS MATRIX
-      if (q.includes('skill') || q.includes('--skills') || q.includes('stack')) {
-        return `
-          <div class="text-emerald-400 font-bold">RUNNING: arsh --get-skills-matrix</div>
-          <pre class="text-slate-400 text-[10px]">
-  +-----------------------+----------------------------------+
-  | DOMAIN                | CORE TECHNOLOGIES                |
-  +-----------------------+----------------------------------+
-  | GenAI & LLMs          | OpenAI, LangChain, RAG, FAISS    |
-  | ML & Neural Nets      | PyTorch, XGBoost, Scikit-learn   |
-  | MLOps & Azure         | Azure AI Foundry, Docker, FastAPI|
-  | Explainable AI        | SHAP, LIME, ROC-AUC Metrics      |
-  +-----------------------+----------------------------------+</pre>
-        `;
-      }
-  
+// 2. SKILLS MATRIX COMMAND (DEEP DIVE)
+if (q.includes('--skills') || q === 'skills' || q.includes('skills-matrix')) {
+  return `
+    <div class="text-emerald-400 font-bold">[TECHNICAL STACK MATRIX - DEEP DIVE]</div>
+    <div class="text-slate-300 space-y-2 text-[11px] pt-1">
+      <div>
+        <span class="text-amber-400 font-bold">> GenAI & RAG Architecture:</span><br/>
+        <span class="text-slate-400">LangChain, LangGraph, OpenAI, Multi-Agent Workflows, Vector DBs (FAISS, ChromaDB)</span>
+      </div>
+      <div>
+        <span class="text-cyan-400 font-bold">> ML, Deep Learning & XAI:</span><br/>
+        <span class="text-slate-400">PyTorch, XGBoost, Scikit-learn, SHAP, LIME, SMOTE, Model Interpretability</span>
+      </div>
+      <div>
+        <span class="text-purple-400 font-bold">> MLOps & Deployment:</span><br/>
+        <span class="text-slate-400">Azure AI Foundry, Docker, FastAPI, Flask, CI/CD Pipelines, RESTful APIs</span>
+      </div>
+      <div>
+        <span class="text-blue-400 font-bold">> Languages & Data Engineering:</span><br/>
+        <span class="text-slate-400">Python (Advanced), SQL, Bash, JavaScript, Enterprise Data Pipelines, Feature Scaling</span>
+      </div>
+    </div>
+  `;
+}
       // 3. PROJECTS & GITHUB COMMAND
       if (q.includes('project') || q.includes('--projects') || q.includes('repo') || q.includes('github')) {
         if (isGithubLoaded && userGithubRepos.length > 0) {
@@ -302,8 +307,44 @@ if (q.includes('cv') || q.includes('resume') || q.includes('--download-cv')) {
         messagesContainer.innerHTML = '<div class="text-slate-500">// Buffer cleared. Ready.</div>';
         return null;
       }
+  // Secret Command: arsh --sudo
+  if (q.includes('--sudo') || q.includes('sudo')) {
+    return `
+      <div class="text-red-400 font-bold">[SECURITY ALERT] ACCESS DENIED</div>
+      <div class="text-slate-400 text-[10px]">Guest user is not in the sudoers file. Incident reported to <span class="text-amber-400">arsh@security.sys</span>.</div>
+    `;
+  }
   
-      // FALLBACK RESPONSE
+  // Secret Command: arsh --game (Mini Terminal Number Guessing Challenge)
+  if (q.includes('--game') || q === 'game') {
+    return `
+      <div class="text-amber-400 font-bold">[MINI TERMINAL CHALLENGE]</div>
+      <div class="text-slate-300 text-[10px]">Decode the binary: What is <span class="text-cyan-400 font-bold">01000001</span> in ASCII?</div>
+      <div class="text-slate-400 text-[10px] pl-2">Type your 1-character answer in the CLI prompt!</div>
+    `;
+  } 
+  // Secret Command: arsh --hire
+if (q.includes('--hire') || q.includes('hire arsh')) {
+  setTimeout(() => {
+    window.location.href = 'mailto:arsh.lakers@gmail.com?subject=Job%20Offer%20-%20AI%20Engineer&body=Hi%20Arsh,%0A%0AWe%20loved%20your%20portfolio!';
+  }, 1200);
+
+  return `
+    <div class="text-emerald-400 font-bold animate-pulse">[INITIATING RECRUITMENT PROTOCOL]</div>
+    <div class="text-slate-300 text-[10px]">
+      Launching default email client for <span class="text-cyan-400">arsh.lakers@gmail.com</span>...
+    </div>
+    <pre class="text-emerald-500 text-[8px] leading-none my-1">
+  __  __ ___ ___  ___ ___  
+ |  \/  |_ _/ __|/ __|_ _| 
+ | |\/| || |\__ \ (__ | |  
+ |_|  |_|___|___/\___|___| 
+    </pre>
+  `;
+}
+  
+  
+  // FALLBACK RESPONSE
       return `
         <div class="text-slate-400">Command not recognized: '<span class="text-red-400">${query}</span>'.</div>
         <div>Type <span class="text-emerald-400 font-bold">arsh --help</span> to list valid commands.</div>
@@ -334,7 +375,7 @@ if (q.includes('cv') || q.includes('resume') || q.includes('--download-cv')) {
   if (SpeechRecognition) {
     const recognition = new SpeechRecognition();
     recognition.continuous = false;
-    recognition.lang = 'en-US';
+    recognition.lang = 'en-US','en-IND';
     recognition.interimResults = true; // Capture intermediate speech so you see it typing live!
 
     let isListening = false;
@@ -414,44 +455,9 @@ if (q.includes('cv') || q.includes('resume') || q.includes('--download-cv')) {
   
     fetchGithubKnowledge();
 
-    // Add these cases inside processCliCommand(query) in chatbot.js
 
-// Secret Command: arsh --hire
-if (q.includes('--hire') || q.includes('hire arsh')) {
-    setTimeout(() => {
-      window.location.href = 'mailto:arsh.lakers@gmail.com?subject=Job%20Offer%20-%20AI%20Engineer&body=Hi%20Arsh,%0A%0AWe%20loved%20your%20portfolio!';
-    }, 1200);
-  
-    return `
-      <div class="text-emerald-400 font-bold animate-pulse">[INITIATING RECRUITMENT PROTOCOL]</div>
-      <div class="text-slate-300 text-[10px]">
-        Launching default email client for <span class="text-cyan-400">arsh.lakers@gmail.com</span>...
-      </div>
-      <pre class="text-emerald-500 text-[8px] leading-none my-1">
-    __  __ ___ ___  ___ ___  
-   |  \/  |_ _/ __|/ __|_ _| 
-   | |\/| || |\__ \ (__ | |  
-   |_|  |_|___|___/\___|___| 
-      </pre>
-    `;
-  }
-  
-  // Secret Command: arsh --sudo
-  if (q.includes('--sudo') || q.includes('sudo')) {
-    return `
-      <div class="text-red-400 font-bold">[SECURITY ALERT] ACCESS DENIED</div>
-      <div class="text-slate-400 text-[10px]">Guest user is not in the sudoers file. Incident reported to <span class="text-amber-400">arsh@security.sys</span>.</div>
-    `;
-  }
-  
-  // Secret Command: arsh --game (Mini Terminal Number Guessing Challenge)
-  if (q.includes('--game') || q === 'game') {
-    return `
-      <div class="text-amber-400 font-bold">[MINI TERMINAL CHALLENGE]</div>
-      <div class="text-slate-300 text-[10px]">Decode the binary: What is <span class="text-cyan-400 font-bold">01000001</span> in ASCII?</div>
-      <div class="text-slate-400 text-[10px] pl-2">Type your 1-character answer in the CLI prompt!</div>
-    `;
-  }
+
+ 
   
   if (q === 'a') {
     return `<div class="text-emerald-400 font-bold">ACCESS GRANTED! Correct answer (01000001 = 'A'). You think like an AI.</div>`;
